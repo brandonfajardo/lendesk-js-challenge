@@ -1,19 +1,19 @@
 const app = {
     cache: {},
-    initialize: function() {
+    initialize: () => {
         const textInput = document.querySelector('input')
-        textInput.addEventListener('keyup', util.debounce(this.findStock.bind(this), 200))
+        textInput.addEventListener('keyup', util.debounce(app.findStock.bind(app), 200))
     },
-    findStock: function(e) {
+    findStock: e => {
         const stockSymbol = document.querySelector('#symbol')
         const stockDescription = document.querySelector('#description')
         const stockPrice = document.querySelector('#price')
         const inputVal = e.target.value.toUpperCase()
 
-        if (this.cache[inputVal]){
-            stockSymbol.innerHTML = this.cache[inputVal].data.symbol
-            stockDescription.innerHTML = this.cache[inputVal].data.description
-            stockPrice.innerHTML = `$${this.cache[inputVal].price}`
+        if (app.cache[inputVal]){
+            stockSymbol.innerHTML = app.cache[inputVal].data.symbol
+            stockDescription.innerHTML = app.cache[inputVal].data.description
+            stockPrice.innerHTML = `$${app.cache[inputVal].price}`
         } else {
             const urls = [constants.COMPANY_URL(inputVal), constants.PRICE_URL(inputVal)]
             const promises = urls.map(url => fetch(url).then(data => data.json()))
@@ -22,7 +22,7 @@ const app = {
                 .then(data => {
                     const { symbol, description } = data[0]
                     const price = data[1]
-                    this.cache[symbol] = { data: data[0], price }
+                    app.cache[symbol] = { data: data[0], price }
                     
                     stockSymbol.innerHTML = symbol
                     stockDescription.innerHTML = description

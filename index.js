@@ -2,7 +2,7 @@ const app = {
     cache: {},
     initialize: () => {
         const textInput = document.querySelector('input')
-        textInput.addEventListener('keyup', util.debounce(app.findStock.bind(app), 200))
+        textInput.addEventListener('keyup', util.debounce(app.findStock, 200))
     },
     findStock: e => {
         const stockSymbol = document.querySelector('#symbol')
@@ -20,7 +20,7 @@ const app = {
 
             Promise.all(promises)
                 .then(data => {
-                    const { symbol, description } = data[0]
+                     const { symbol, description } = data[0]
                     const price = data[1]
                     app.cache[symbol] = { data: data[0], price }
                     
